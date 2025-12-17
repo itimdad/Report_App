@@ -1,56 +1,51 @@
-	package com.imdad.controller;
-	
-	import java.util.List;
-	
-	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.stereotype.Controller;
-	import org.springframework.ui.Model;
-	import org.springframework.web.bind.annotation.GetMapping;
-	import org.springframework.web.bind.annotation.ModelAttribute;
+package com.imdad.controller;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.imdad.dto.SearchRequest;
 import com.imdad.entity.CitizenPlan;
-import com.imdad.entity.SearchRequest;
-	import com.imdad.service.ReportServiceImpl;
-	import org.springframework.web.bind.annotation.RequestParam;
-	
-	
-	@Controller
-	public class ReportController {
-	
+import com.imdad.service.ReportService;
+
+@Controller
+public class ReportController {
+
+	@Autowired
+	ReportService service;
+
+	@PostMapping("/search")
+	public String handlesearch(@ModelAttribute("searchRequest") SearchRequest request, Model model) {
 		
-		@Autowired
-		ReportServiceImpl reportServiceImpl;
-	
-	
-	
-		@GetMapping("/index")
-		public String indexPage(Model model) {
-			
-			List<String> planStatus = reportServiceImpl.getPlanStatus();
-			List<String> planNames = reportServiceImpl.getPlanNames();
-			
-			model.addAttribute("searchRequest", new SearchRequest());
-			model.addAttribute("plans", planNames);
-			model.addAttribute("status", planStatus);
-			
-			return "index";
-		}
+		System.out.println(request);
 		
-		@PostMapping("/search")
-		public String searchData(@ModelAttribute SearchRequest request) {
-			
-			System.out.println(request.getPlanName());
-			System.out.println(request.getPlanStatus());
-			System.out.println(request.getGender());
-			System.out.println(request.getStartDate());
-			System.out.println(request.getEndDate());
-			
-			List<CitizenPlan> searchAll = reportServiceImpl.searchAll();
-			System.out.println(searchAll);
-			
-			return "success";
-		}
+		List<CitizenPlan> results = service.search(request);
 		
-	
+		model.addAttribute("results", results);
+		
+		init(model);
+		
+		return "index";
 	}
+	@GetMapping("/")
+	public String indexPage(Model model) {
+
+		model.addAttribute("searchRequest", new SearchRequest());
+		init(model);
+
+		return "index";
+	}
+
+	private void init(Model model) {
+		
+		model.addAttribute("plans", service.getPlanNames());
+		model.addAttribute("status", service.getPlanStatus()); 
+	}
+
+}

@@ -1,4 +1,4 @@
-package com.imdad.entity;
+package com.imdad.dto;
 
 import java.time.LocalDate;
 

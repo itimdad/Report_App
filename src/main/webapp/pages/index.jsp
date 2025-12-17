@@ -2,7 +2,9 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
+
 
 <html>
 <head>
@@ -16,40 +18,110 @@
 	crossorigin="anonymous">
 </head>
 <body>
-       
-       <div class="container">
-      
-             <h1>Generate Report</h1>
-             
-             <form:form action="search" modelAttribute="searchRequest" method="get">
-                   
-                   Plan Name: <form:select path="planName">
-                              <form:option value="-Select-"></form:option>
-                              <form:options items="${plans}"/>
-                   </form:select>
-                   Plan Status : <form:select path="planStatus">
-                                 <form:option value="-Select-"></form:option>
-                                 <form:options items="${status}"/>
-                   
-                   </form:select>
-                   Gender: <form:select path="gender">
-                         <form:option value="-Select-"></form:option>
-                         <form:option value="Male"></form:option>
-                         <form:option value="Fe-Male"></form:option>
-                         <form:option value="Other"></form:option>
-                         
-                   </form:select>
-                   <br> <br>
-                   Start Date: <form:input path="startDate" type="date"/>
-                   End Date: <form:input path="endDate" type="date"/>
-                   <br>
-                   <br>
-                   <form:button class="btn btn-primary">Search</form:button>
-             
-             </form:form>
-             
-       
-       </div>
+
+	<div class="container">
+
+		<h3 class="pb-3 pt-3">Report Application</h3>
+
+		<form:form action="search" modelAttribute="searchRequest"
+			method="post">
+
+			<table>
+				<tr>
+					<td>Plan Name:</td>
+					<td><form:select path="planName">
+							<form:option value="">-Select-</form:option>
+							<form:options items="${plans}" />
+						</form:select></td>
+
+					<td>Plan Status:</td>
+					<td><form:select path="planStatus">
+							<form:option value="">-Select-</form:option>
+							<form:options items="${status}" />
+						</form:select></td>
+
+					<td>Gender:</td>
+					<td><form:select path="gender">
+							<form:option value="">-Select-</form:option>
+							<form:option value="Male">Male</form:option>
+							<form:option value="Fe-Male">Fe-Male</form:option>
+							<form:option value="Other">Other</form:option>
+
+						</form:select></td>
+				</tr>
+				<tr>
+					<td>Start Date:</td>
+					<td><form:input path="startDate" type="date" /></td>
+
+					<td>End Date:</td>
+					<td><form:input path="endDate" type="date" /></td>
+				</tr>
+
+				<tr>
+					<td rowspan="3"><input type="submit" value="Search"
+						class="btn btn-primary" /></td>
+				</tr>
+
+			</table>
+
+		</form:form>
+
+		<hr>
+
+		<table class="table table-strip table-hover">
+			<thead>
+				<tr>
+					<td>Id</td>
+					<td>Holder Name</td>
+					<td>Gender</td>
+					<td>Plan Name</td>
+					<td>Plan Status</td>
+					<td>Start Date</td>
+					<td>End Date</td>
+					<td>Benefit Amt</td>
+				</tr>
+			</thead>
+
+			<tbody>
+
+
+				<c:choose>
+
+					<c:when test="${not empty results}">
+						<c:forEach items="${results}" var="p">
+							<tr>
+								<td>${p.citizenId}</td>
+								<td>${p.citizenName}</td>
+								<td>${p.gender}</td>
+								<td>${p.planName}</td>
+								<td>${p.planStatus}</td>
+								<td>${p.planStartDate}</td>
+								<td>${p.planEndDate}</td>
+								<td>${p.benefitAmount}</td>
+							</tr>
+						</c:forEach>
+					</c:when>
+
+					<c:otherwise>
+						<tr>
+							<td colspan="8" class="text-center">No Data</td>
+						</tr>
+					</c:otherwise>
+
+				</c:choose>
+
+
+			</tbody>
+
+
+		</table>
+
+		<hr>
+
+		Export:<a href="#">Pdf</a> <a href="#">Excel</a>
+
+
+	</div>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
