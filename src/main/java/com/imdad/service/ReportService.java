@@ -5,6 +5,8 @@ import java.util.List;
 import com.imdad.dto.SearchRequest;
 import com.imdad.entity.CitizenPlan;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 public interface ReportService {
 
 	public List<String> getPlanNames();
@@ -13,7 +15,7 @@ public interface ReportService {
 	
 	public List<CitizenPlan> search(SearchRequest request);
 	
-	public boolean exportPdf();
+	public boolean exportPdf(HttpServletResponse response);
 	
-	public boolean exportExcel();
+	public boolean exportExcel(HttpServletResponse response) throws Exception;
 }

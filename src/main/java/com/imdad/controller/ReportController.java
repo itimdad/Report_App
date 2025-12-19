@@ -14,6 +14,8 @@ import com.imdad.dto.SearchRequest;
 import com.imdad.entity.CitizenPlan;
 import com.imdad.service.ReportService;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Controller
 public class ReportController {
 
@@ -33,6 +35,21 @@ public class ReportController {
 		
 		return "index";
 	}
+	
+	@GetMapping("/downloadExcel")
+	public void downloadExcel(HttpServletResponse response) throws Exception {
+		
+		response.setHeader("Content-Disposition", "attachment; filename=CitizenPlans.xlsx");
+		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		
+		service.exportExcel(response);
+	}
+	
+	/**
+	 * This method is used to load the Index page 
+	 * @param model
+	 * @return String
+	 */
 	@GetMapping("/")
 	public String indexPage(Model model) {
 

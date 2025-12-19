@@ -58,6 +58,7 @@
 				</tr>
 
 				<tr>
+				     <td><a href="/" class="btn btm-primary">Reset</a></td>
 					<td rowspan="3"><input type="submit" value="Search"
 						class="btn btn-primary" /></td>
 				</tr>
@@ -109,16 +110,12 @@
 					</c:otherwise>
 
 				</c:choose>
-
-
 			</tbody>
-
-
 		</table>
 
 		<hr>
 
-		Export:<a href="#">Pdf</a> <a href="#">Excel</a>
+		Export:<a href="#">Pdf</a> <a href="downloadExcel">Excel</a>
 
 
 	</div>
