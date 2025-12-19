@@ -73,8 +73,16 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public boolean exportExcel(HttpServletResponse response) throws Exception {
 		
+		 /*
+         * Workbook represents the entire Excel file.
+         * XSSFWorkbook is used for .xlsx format.
+         */
 		Workbook workbook = new XSSFWorkbook();
 		
+        /*
+         * Sheet represents one sheet inside Excel file.
+         * Sheet name will be visible at bottom of Excel.
+         */
 		Sheet sheet = workbook.createSheet("Citizen plans");
 		
 		Row headRow = sheet.createRow(0);
@@ -86,8 +94,6 @@ public class ReportServiceImpl implements ReportService {
 		headRow.createCell(4).setCellValue("Plan Status");
 		headRow.createCell(5).setCellValue("Start Date");
 		headRow.createCell(6).setCellValue("End Date");
-		
-		
 		headRow.createCell(7).setCellValue("Benefit Amount");
 		
 		List<CitizenPlan> plans = repo.findAll();
@@ -101,8 +107,21 @@ public class ReportServiceImpl implements ReportService {
 			dataRow.createCell(2).setCellValue(plan.getGender());
 			dataRow.createCell(3).setCellValue(plan.getPlanName());
 			dataRow.createCell(4).setCellValue(plan.getPlanStatus());
-			dataRow.createCell(5).setCellValue(plan.getPlanStartDate() + "");
-			dataRow.createCell(6).setCellValue(plan.getPlanEndDate() + "");
+			
+			//checking start Date is null if yes then print NA if not null print Date
+			if(plan.getPlanStartDate() != null) {
+				dataRow.createCell(5).setCellValue(plan.getPlanStartDate() + "");
+			} else {
+				dataRow.createCell(5).setCellValue("N/A");
+			}
+			
+			//checking end Date is null if yes then print NA if not null print Date
+			if(plan.getPlanEndDate() != null) {
+				dataRow.createCell(6).setCellValue(plan.getPlanEndDate() + "");
+			} else {
+				dataRow.createCell(6).setCellValue("N/A");
+			}
+			
 			if(plan.getBenefitAmount() != null) {
 				dataRow.createCell(7).setCellValue(plan.getBenefitAmount());
 			} else {
@@ -113,6 +132,10 @@ public class ReportServiceImpl implements ReportService {
 		}
 		
 		
+        /*
+         * Write the Excel file data into HTTP response output stream.
+         * This sends the Excel file to the browser.
+         */
 		ServletOutputStream outputStream = response.getOutputStream();
 		
 		workbook.write(outputStream);
