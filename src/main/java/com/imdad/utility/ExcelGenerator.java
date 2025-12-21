@@ -1,5 +1,7 @@
 package com.imdad.utility;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Row;
@@ -16,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class ExcelGenerator {
 
-	public  boolean genrateExcel(HttpServletResponse response, List<CitizenPlan> plans) throws Exception {
+	public  boolean generateExcel(HttpServletResponse response, List<CitizenPlan> plans, File f) throws Exception {
 		
 		 /*
         * Workbook represents the entire Excel file.
@@ -75,13 +77,16 @@ public class ExcelGenerator {
 		}
 		
 		
+		FileOutputStream fos = new FileOutputStream(f);
+		workbook.write(fos);
+		fos.close();
        /*
         * Write the Excel file data into HTTP response output stream.
         * This sends the Excel file to the browser.
         */
 		ServletOutputStream outputStream = response.getOutputStream();
-		
 		workbook.write(outputStream);
+		
 		
 		workbook.close();
 		

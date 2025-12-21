@@ -1,5 +1,9 @@
 package com.imdad.utility;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 
@@ -17,11 +21,12 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class PdfGenerator {
 
-	public  boolean genratePdf(HttpServletResponse response, List<CitizenPlan> plans) throws Exception {
+	public  boolean generatePdf(HttpServletResponse response, List<CitizenPlan> plans, File f) throws Exception {
 
 		Document document = new Document(PageSize.A4);
 
 		PdfWriter.getInstance(document, response.getOutputStream());
+		PdfWriter.getInstance(document, new FileOutputStream(f));
 
 		document.open();
 

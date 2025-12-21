@@ -1,5 +1,6 @@
 package com.imdad.service;
 
+import java.io.File;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.imdad.dto.SearchRequest;
 import com.imdad.entity.CitizenPlan;
 import com.imdad.repository.CitizenPlanRepository;
+import com.imdad.utility.EmailUtils;
 import com.imdad.utility.ExcelGenerator;
 import com.imdad.utility.PdfGenerator;
 
@@ -24,6 +26,9 @@ public class ReportServiceImpl implements ReportService {
 
 	@Autowired
 	ExcelGenerator excelGenerator;
+	
+	@Autowired
+	EmailUtils emailUtils;
 	
 	@Override
 	public List<String> getPlanNames() {
@@ -77,8 +82,17 @@ public class ReportServiceImpl implements ReportService {
 
 		List<CitizenPlan> plans = repo.findAll();
 		
-		pdfGenerator.genratePdf(response, plans);
+		File f = new File("Plans.pdf");
 		
+		String subject = "Test mail subject";
+		String body = "<h1> Test mail body </h1>";
+		String to = "iamfirdausi01@gmail.com";
+		
+		
+		pdfGenerator.generatePdf(response, plans, f);
+		
+		emailUtils.sendMail(to, subject, body, f);
+		f.delete();
 		return true;
 	}
 
@@ -87,8 +101,18 @@ public class ReportServiceImpl implements ReportService {
 
 		List<CitizenPlan> plans = repo.findAll();
 		
-		excelGenerator.genrateExcel(response, plans);
-		return false;
+		File f = new File("Plans.xlsx");
+		
+		String subject = "Test mail subject";
+		String body = "<h1> Test mail body </h1>";
+		String to = "iamfirdausi01@gmail.com";
+		
+		excelGenerator.generateExcel(response, plans, f);
+		
+		emailUtils.sendMail(to, subject, body, f);
+		
+		f.delete();
+		return true;
 	}
 	
 
