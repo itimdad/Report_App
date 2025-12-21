@@ -52,9 +52,8 @@ public class ReportController {
 		response.setHeader("Content-Disposition", "attachment; filename=CitizenPlans.xlsx");
 		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		
-		List<CitizenPlan> plans = service.getAllPlans();
+		service.exportExcel(response);
 		
-		ExcelGenerator.exportExcel(response, plans);
 	}
 	
 	@GetMapping("/downloadPdf")
@@ -63,9 +62,7 @@ public class ReportController {
 		response.setHeader("Content-Disposition", "attachment; filename=CitizenPlans.pdf");
 		response.setContentType("application/pdf");
 		
-		List<CitizenPlan> plans = service.getAllPlans();
-		
-		PdfGenerator.exportPdf(response, plans);
+		service.exportPdf(response);
 	}
 	
 	/**

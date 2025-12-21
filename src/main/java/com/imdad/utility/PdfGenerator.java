@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class PdfGenerator {
 
-	public static boolean exportPdf(HttpServletResponse response, List<CitizenPlan> plans) throws Exception {
+	public  boolean genratePdf(HttpServletResponse response, List<CitizenPlan> plans) throws Exception {
 
 		Document document = new Document(PageSize.A4);
 

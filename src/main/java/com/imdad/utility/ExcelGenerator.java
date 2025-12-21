@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class ExcelGenerator {
 
-	public static boolean exportExcel(HttpServletResponse response, List<CitizenPlan> plans) throws Exception {
+	public  boolean genrateExcel(HttpServletResponse response, List<CitizenPlan> plans) throws Exception {
 		
 		 /*
         * Workbook represents the entire Excel file.
