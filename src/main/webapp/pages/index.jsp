@@ -115,7 +115,7 @@
 
 		<hr>
 
-		Export:<a href="#">Pdf</a> <a href="downloadExcel">Excel</a>
+		Export:<a href="downloadPdf">Pdf</a> <a href="downloadExcel">Excel</a>
 
 
 	</div>
