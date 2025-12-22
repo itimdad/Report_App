@@ -84,6 +84,7 @@ public class ReportServiceImpl implements ReportService {
 		
 		File f = new File("Plans.pdf");
 		
+		//Details of email
 		String subject = "Test mail subject";
 		String body = "<h1> Test mail body </h1>";
 		String to = "iamfirdausi01@gmail.com";

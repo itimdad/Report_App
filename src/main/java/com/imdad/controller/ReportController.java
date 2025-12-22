@@ -54,7 +54,7 @@ public class ReportController {
 		
 		service.exportExcel(response);
 		
-	}
+y	}
 	
 	@GetMapping("/downloadPdf")
 	public void downloadPdf(HttpServletResponse response)  throws Exception{
